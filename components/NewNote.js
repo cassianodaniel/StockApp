@@ -51,6 +51,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 20,
     borderBottomColor: 'transparent',
     marginTop: -55,
+    flex: 1
   },
   noteText:{
     paddingLeft: 20,
