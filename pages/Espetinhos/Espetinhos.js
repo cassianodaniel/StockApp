@@ -44,7 +44,8 @@ export default class Estoque extends React.Component{
         keyval={key} 
         val={val}
         deleteMethod={() => this.deleteNote(key)}
-        quantityMethod={() => this.addQuantity(val.id)}/>
+        addQuantityMethod={() => this.addQuantity(val.id)}
+        removeQuantityMethod={() => this.removeQuantity(val.id)}/>
     });
 
     return (
@@ -92,7 +93,7 @@ export default class Estoque extends React.Component{
       try {
         const jsonValue = JSON.stringify(this.state)
         await AsyncStorage.setItem('@estoque', jsonValue)
-        console.log("Sucess!");
+        console.log("Note created!");
       } catch (e) {
         console.log(e);
       }
@@ -113,13 +114,39 @@ export default class Estoque extends React.Component{
         }
         arrays.pop(item);
         arrays.push(newProduct);
+        console.log(newProduct);
+        this.setState({ noteArray: arrays});
       }
     })
-    this.setState({ noteArray: arrays});
     try {
       const jsonValue = JSON.stringify(this.state)
       await AsyncStorage.setItem('@estoque', jsonValue)
-      console.log("Sucess!");
+      console.log("+1!");
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  async removeQuantity(id){
+    const arrays = this.state.noteArray;
+    arrays.map((item) => {
+      if (item.id == id) {
+        const newProduct = {
+          id: id,
+          note: item.note,
+          qtd: item.qtd-1
+        }
+        arrays.pop(item);
+        arrays.push(newProduct);
+        console.log(newProduct);
+        this.setState({ noteArray: arrays});
+      }
+    })
+    
+    try {
+      const jsonValue = JSON.stringify(this.state)
+      await AsyncStorage.setItem('@estoque', jsonValue)
+      console.log("-1!");
     } catch (e) {
       console.log(e);
     }
@@ -132,7 +159,7 @@ export default class Estoque extends React.Component{
     try {
       const jsonValue = JSON.stringify(this.state)
       await AsyncStorage.setItem('@estoque', jsonValue)
-      console.log("Sucess!");
+      console.log("Note deleted!");
     } catch (e) {
       console.log(e);
     }

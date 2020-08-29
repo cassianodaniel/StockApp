@@ -23,17 +23,17 @@ export default class Note extends React.Component{
                 <Text style={styles.noteDeleteText}>Deletar</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity onPress={this.props.quantityMethod} 
+            <TouchableOpacity 
             style={styles.noteQuantity}> 
-                <Text style={styles.noteQuantityText}>Qtd: 0</Text>
+                <Text style={styles.noteQuantityText}>Qtd: {this.props.val.qtd}</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity 
+            <TouchableOpacity onPress={this.props.addQuantityMethod}
             style={styles.plusOne}> 
                 <Text style={styles.plus}>+</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity
+            <TouchableOpacity  onPress={this.props.removeQuantityMethod}
             style={styles.minusOne}> 
                 <Text style={styles.minus}>-</Text>
             </TouchableOpacity>
