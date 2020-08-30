@@ -132,7 +132,18 @@ export default class Estoque extends React.Component{
     this.save();
   }
 
-  async removeQuantity(id){
+  modQuantity(id, novoValor){
+    this.state.noteArray.map((produto) => {
+      if (produto.id === id) {
+        produto.qtd = novoValor;
+      }
+    })
+
+    this.setState({ noteArray: this.state.noteArray });
+    this.save();
+  }
+
+  removeQuantity(id){
     this.state.noteArray.map((produto) => {
       if (produto.id === id) {
         if (produto.qtd>0) {
@@ -145,7 +156,7 @@ export default class Estoque extends React.Component{
     this.save();
   }
 
-  async deleteNote(key){
+  deleteNote(key){
     this.state.noteArray.splice(key, 1);
     this.setState({ noteArray: this.state.noteArray });
 
