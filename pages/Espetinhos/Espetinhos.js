@@ -33,6 +33,9 @@ export default class Estoque extends React.Component{
       }
     }
 
+    //Limpar o armazenamento
+    //AsyncStorage.clear();
+    
     init();
   }
 
@@ -45,7 +48,9 @@ export default class Estoque extends React.Component{
         val={val}
         deleteMethod={() => this.deleteNote(key)}
         addQuantityMethod={() => this.addQuantity(val.id)}
-        removeQuantityMethod={() => this.removeQuantity(val.id)}/>
+        removeQuantityMethod={() => this.removeQuantity(val.id)}
+        editQuantityMethod={() => this.modQuantity(val.id, input)}
+        />
     });
 
     return (
@@ -81,88 +86,83 @@ export default class Estoque extends React.Component{
     );
   }
 
-  async addNote(){
+  async save(){
+    try {
+      const jsonValue = JSON.stringify(this.state)
+      await AsyncStorage.setItem('@estoque', jsonValue)
+      console.log("Salvo!");
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  gerarId(){
+    if(this.state.noteArray.length==0){
+      return 0;
+    }else{
+      let id = 0;
+      this.state.noteArray.map((produto) => {
+        id = produto.id+1;
+      });
+      return id;
+    }
+  }
+
+  addNote(){
     if(this.state.noteText){
-      const count = this.state.noteArray.length;
       this.state.noteArray.push({
-        id: count,
+        id: this.gerarId(),
         note: this.state.noteText,
         qtd: 0
       });
 
-      try {
-        const jsonValue = JSON.stringify(this.state)
-        await AsyncStorage.setItem('@estoque', jsonValue)
-        console.log("Note created!");
-      } catch (e) {
-        console.log(e);
-      }
-
       this.setState({ noteArray: this.state.noteArray });
       this.setState({ noteText: ''});
+
+      this.save();
     }
   }
 
-  async addQuantity(id){
-    const arrays = this.state.noteArray;
-    arrays.map((item) => {
-      if (item.id == id) {
-        const newProduct = {
-          id: id,
-          note: item.note,
-          qtd: item.qtd+1
-        }
-        arrays.pop(item);
-        arrays.push(newProduct);
-        console.log(newProduct);
-        this.setState({ noteArray: arrays});
+  addQuantity(id){
+    this.state.noteArray.map((produto) => {
+      if (produto.id === id) {
+        produto.qtd = produto.qtd+1;
       }
     })
-    try {
-      const jsonValue = JSON.stringify(this.state)
-      await AsyncStorage.setItem('@estoque', jsonValue)
-      console.log("+1!");
-    } catch (e) {
-      console.log(e);
-    }
+
+    this.setState({ noteArray: this.state.noteArray });
+    this.save();
   }
 
-  async removeQuantity(id){
-    const arrays = this.state.noteArray;
-    arrays.map((item) => {
-      if (item.id == id) {
-        const newProduct = {
-          id: id,
-          note: item.note,
-          qtd: item.qtd-1
-        }
-        arrays.pop(item);
-        arrays.push(newProduct);
-        console.log(newProduct);
-        this.setState({ noteArray: arrays});
+  modQuantity(id, novoValor){
+    this.state.noteArray.map((produto) => {
+      if (produto.id === id) {
+        produto.qtd = novoValor;
       }
     })
-    
-    try {
-      const jsonValue = JSON.stringify(this.state)
-      await AsyncStorage.setItem('@estoque', jsonValue)
-      console.log("-1!");
-    } catch (e) {
-      console.log(e);
-    }
+
+    this.setState({ noteArray: this.state.noteArray });
+    this.save();
   }
 
-  async deleteNote(key){
+  removeQuantity(id){
+    this.state.noteArray.map((produto) => {
+      if (produto.id === id) {
+        if (produto.qtd>0) {
+          produto.qtd = produto.qtd-1;
+        }
+      }
+    })
+
+    this.setState({ noteArray: this.state.noteArray });
+    this.save();
+  }
+
+  deleteNote(key){
     this.state.noteArray.splice(key, 1);
     this.setState({ noteArray: this.state.noteArray });
 
-    try {
-      const jsonValue = JSON.stringify(this.state)
-      await AsyncStorage.setItem('@estoque', jsonValue)
-      console.log("Note deleted!");
-    } catch (e) {
-      console.log(e);
-    }
+    this.save();
   }
 };
 

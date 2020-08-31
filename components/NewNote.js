@@ -1,9 +1,7 @@
 import React from 'react';
 
 import {
-  SafeAreaView,
   StyleSheet,
-  ScrollView,
   View,
   Text,
   TextInput,
@@ -28,6 +26,14 @@ export default class Note extends React.Component{
                 <Text style={styles.noteQuantityText}>Qtd: {this.props.val.qtd}</Text>
             </TouchableOpacity>
 
+            <TextInput 
+                onChangeText={this.props.editQuantityMethod}
+                placeholder='Editar'
+                placeholderTextColor='gray'
+                underlineColorAndroid='transparent'
+                style={{position:'absolute', left: 335, top: 63}}>
+            </TextInput>
+
             <TouchableOpacity onPress={this.props.addQuantityMethod}
             style={styles.plusOne}> 
                 <Text style={styles.plus}>+</Text>
@@ -50,7 +56,7 @@ const styles = StyleSheet.create({
     paddingRight: 130,
     borderBottomWidth: 20,
     borderBottomColor: 'transparent',
-    marginTop: -55,
+    marginTop: -45,
     flex: 1
   },
   noteText:{
