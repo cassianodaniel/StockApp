@@ -27,12 +27,19 @@ export default class Note extends React.Component{
             </TouchableOpacity>
 
             <TextInput 
-                onChangeText={this.props.editQuantityMethod}
-                placeholder='Editar'
+                onChangeText={(text) => {
+                  this.props.editInput(text)
+                }}
+                placeholder='Qtd'
                 placeholderTextColor='gray'
                 underlineColorAndroid='transparent'
                 style={{position:'absolute', left: 335, top: 63}}>
             </TextInput>
+
+            <TouchableOpacity onPress={this.props.modQuantityMethod}
+            style={styles.mudar}> 
+                <Text style={styles.plus}>Mudar</Text>
+            </TouchableOpacity>
 
             <TouchableOpacity onPress={this.props.addQuantityMethod}
             style={styles.plusOne}> 
@@ -55,9 +62,14 @@ const styles = StyleSheet.create({
     padding: 20,
     paddingRight: 130,
     borderBottomWidth: 20,
+    marginLeft: 3,
+    marginRight: 3,
+    marginBottom: 40,
     borderBottomColor: 'transparent',
     marginTop: -45,
-    flex: 1
+    flex: 1,
+    backgroundColor: 'white',
+    borderRadius: 10
   },
   noteText:{
     paddingLeft: 20,
@@ -79,20 +91,21 @@ const styles = StyleSheet.create({
     top: -8,
     right: 14,
     marginTop: 34,   
-    width: 80,
+    width: 95,
     height: 20
   },
   noteQuantity:{
-    position: 'relative',
+    position: 'absolute',
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'orange',
     padding: 10,
-    bottom: 0,
-    top: -25,
-    width: 80,
-    height: 20,
-    left: 297,
+    bottom: 10,
+    top: 18,
+    right: 14,
+    marginTop: 34,   
+    width: 95,
+    height: 20
   },
   noteDeleteText:{
     color: 'white'
@@ -102,13 +115,23 @@ const styles = StyleSheet.create({
   },
   plusOne:{
     backgroundColor:'#E91E63',
-    left: 290,
+    right: 135,
     top: 25,
     width: 20,
     height: 20,
     alignItems: 'center',
     justifyContent:'center',
     borderRadius: 16,
+    position: 'absolute'
+  },
+  mudar:{
+    backgroundColor:'red',
+    right: 14,
+    top: 78,
+    width: 50,
+    height: 20,
+    alignItems: 'center',
+    justifyContent:'center',
     position: 'absolute'
   },
   plus:{
@@ -123,7 +146,7 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     backgroundColor:'#E91E63',
     position:'absolute',
-    left: 290,
+    right: 135,
     top: 55
   },
   minus:{

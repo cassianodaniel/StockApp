@@ -21,6 +21,8 @@ export default class Estoque extends React.Component{
       noteText: '',
     }
 
+    this.input = 0;
+
     const init = async () => {
       try {
         const jsonValue = await AsyncStorage.getItem('@estoque')
@@ -49,7 +51,8 @@ export default class Estoque extends React.Component{
         deleteMethod={() => this.deleteNote(key)}
         addQuantityMethod={() => this.addQuantity(val.id)}
         removeQuantityMethod={() => this.removeQuantity(val.id)}
-        editQuantityMethod={() => this.modQuantity(val.id, input)}
+        editInput={(input) => this.modInput(input)}
+        modQuantityMethod={() => this.modQuantity(val.id)}
         />
     });
 
@@ -113,7 +116,7 @@ export default class Estoque extends React.Component{
       this.state.noteArray.push({
         id: this.gerarId(),
         note: this.state.noteText,
-        qtd: 0
+        qtd: 0,
       });
 
       this.setState({ noteArray: this.state.noteArray });
@@ -134,10 +137,15 @@ export default class Estoque extends React.Component{
     this.save();
   }
 
-  modQuantity(id, novoValor){
+  modInput(input){
+    this.input = parseInt(input);
+    console.log(this.input);
+  }
+
+  modQuantity(id){
     this.state.noteArray.map((produto) => {
       if (produto.id === id) {
-        produto.qtd = novoValor;
+        produto.qtd = this.input;
       }
     })
 
