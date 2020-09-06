@@ -192,15 +192,16 @@ const styles = StyleSheet.create({
   },
   scrollContainer: {
       flex: 1,
-      marginTop: 48,
+      marginTop: 140,
   },
   footer: {
       position: 'absolute',
-      top: 750,
+      top: 70,
       left: 0,
       right: 0,
       zIndex: 10,
-      flex: 1
+      flex: 1,
+      width: '75%'
   },
   textInput: {
       alignSelf: 'stretch',
@@ -214,11 +215,11 @@ const styles = StyleSheet.create({
   addButton:{
     position: 'absolute',
     zIndex: 11,
-    right: 20,
-    top: 628,
+    right: 10,
+    top: 70,
     backgroundColor: '#F55858',
-    width: 90,
-    height: 90,
+    width: 80,
+    height: 80,
     borderRadius: 50,
     alignItems: 'center',
     justifyContent: 'center',
