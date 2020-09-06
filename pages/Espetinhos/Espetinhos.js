@@ -71,12 +71,12 @@ export default class Estoque extends React.Component{
 
             <View style={styles.footer}>
                 <TextInput
-                  onChangeText={(noteText) => this.setState({noteText})}
+                  onChangeText={(noteText) => {this.setState({noteText})}}
                   value={this.state.noteText}
-                  style={styles.textInput}
-                  placeholder='Insira aqui o nome do produto a ser cadastrado'
+                  placeholder='Insira o nome do novo produto'
                   placeholderTextColor='white'
-                  underlineColorAndroid='transparent'>
+                  underlineColorAndroid='transparent'
+                  style={styles.textInput}>
                 </TextInput>
             </View>
 
@@ -192,15 +192,15 @@ const styles = StyleSheet.create({
   },
   scrollContainer: {
       flex: 1,
-      marginTop: 48,
+      marginTop: 140,
   },
   footer: {
       position: 'absolute',
-      top: 750,
-      left: 0,
-      right: 0,
+      top: 70,
       zIndex: 10,
-      flex: 1
+      flex: 1,
+      width: '75%',
+      borderRadius: 8,
   },
   textInput: {
       alignSelf: 'stretch',
@@ -210,15 +210,17 @@ const styles = StyleSheet.create({
       backgroundColor: '#E40000',
       borderTopWidth: 2,
       borderTopColor: '#ededed',
+      borderRadius: 8,
+      marginLeft: 3
   },
   addButton:{
     position: 'absolute',
     zIndex: 11,
-    right: 20,
-    top: 628,
+    right: 5,
+    top: 70,
     backgroundColor: '#F55858',
-    width: 90,
-    height: 90,
+    width: 80,
+    height: 80,
     borderRadius: 50,
     alignItems: 'center',
     justifyContent: 'center',

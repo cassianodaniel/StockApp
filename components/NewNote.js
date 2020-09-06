@@ -33,7 +33,7 @@ export default class Note extends React.Component{
                 placeholder='Qtd'
                 placeholderTextColor='gray'
                 underlineColorAndroid='transparent'
-                style={{position:'absolute', left: 335, top: 63}}>
+                style={styles.qtd}>
             </TextInput>
 
             <TouchableOpacity onPress={this.props.modQuantityMethod}
@@ -61,11 +61,10 @@ const styles = StyleSheet.create({
     position: "relative",
     padding: 20,
     paddingRight: 130,
-    borderBottomWidth: 20,
     marginLeft: 3,
     marginRight: 3,
     marginBottom: 40,
-    borderBottomColor: 'transparent',
+    height: 110,
     marginTop: -45,
     flex: 1,
     backgroundColor: 'white',
@@ -73,7 +72,7 @@ const styles = StyleSheet.create({
   },
   noteText:{
     paddingLeft: 20,
-    paddingBottom: 20,
+    paddingBottom: 25,
     paddingRight: 20,
     paddingTop: 20,
     borderLeftWidth: 10,
@@ -124,11 +123,16 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     position: 'absolute'
   },
+  qtd:{
+    position:'absolute', 
+    left: 278, 
+    top: 63, 
+  },
   mudar:{
     backgroundColor:'red',
     right: 14,
     top: 78,
-    width: 50,
+    width: 60,
     height: 20,
     alignItems: 'center',
     justifyContent:'center',
