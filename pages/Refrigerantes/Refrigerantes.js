@@ -1,5 +1,6 @@
 import React from 'react';
-import Note from '../../components/NewNote'
+import Note from '../../components/NewNote';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import {
   SafeAreaView,
@@ -18,8 +19,26 @@ export default class Estoque extends React.Component{
     this.state = {
       noteArray: [],
       noteText: '',
-      quantity: 0,
     }
+
+    this.input = 0;
+
+    const init = async () => {
+      try {
+        const jsonValue = await AsyncStorage.getItem('@refrigerantes')
+        if(jsonValue !== null){
+          this.setState(JSON.parse(jsonValue));
+        }
+        console.log("Sucess!")
+      } catch(e) {
+        console.log(e)
+      }
+    }
+
+    //Limpar o armazenamento
+    //AsyncStorage.clear();
+    
+    init();
   }
 
   render(){
@@ -30,7 +49,11 @@ export default class Estoque extends React.Component{
         keyval={key} 
         val={val}
         deleteMethod={() => this.deleteNote(key)}
-        quantityMethod={() => this.addQuantity(key)}/>
+        addQuantityMethod={() => this.addQuantity(val.id)}
+        removeQuantityMethod={() => this.removeQuantity(val.id)}
+        editInput={(input) => this.modInput(input)}
+        modQuantityMethod={() => this.modQuantity(val.id)}
+        />
     });
 
     return (
@@ -66,24 +89,88 @@ export default class Estoque extends React.Component{
     );
   }
 
+  async save(){
+    try {
+      const jsonValue = JSON.stringify(this.state)
+      await AsyncStorage.setItem('@refrigerantes', jsonValue)
+      console.log("Salvo!");
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  gerarId(){
+    if(this.state.noteArray.length==0){
+      return 0;
+    }else{
+      let id = 0;
+      this.state.noteArray.map((produto) => {
+        id = produto.id+1;
+      });
+      return id;
+    }
+  }
+
   addNote(){
     if(this.state.noteText){
       this.state.noteArray.push({
-        'note': this.state.noteText
+        id: this.gerarId(),
+        note: this.state.noteText,
+        qtd: 0,
       });
 
       this.setState({ noteArray: this.state.noteArray });
       this.setState({ noteText: ''});
+
+      this.save();
     }
   }
 
-  addQuantity(key){
-    this.setState({ quantity: this.state.quantity + 1});
+  addQuantity(id){
+    this.state.noteArray.map((produto) => {
+      if (produto.id === id) {
+        produto.qtd = produto.qtd+1;
+      }
+    })
+
+    this.setState({ noteArray: this.state.noteArray });
+    this.save();
+  }
+
+  modInput(input){
+    this.input = parseInt(input);
+    console.log(this.input);
+  }
+
+  modQuantity(id){
+    this.state.noteArray.map((produto) => {
+      if (produto.id === id) {
+        produto.qtd = this.input;
+      }
+    })
+
+    this.setState({ noteArray: this.state.noteArray });
+    this.save();
+  }
+
+  removeQuantity(id){
+    this.state.noteArray.map((produto) => {
+      if (produto.id === id) {
+        if (produto.qtd>0) {
+          produto.qtd = produto.qtd-1;
+        }
+      }
+    })
+
+    this.setState({ noteArray: this.state.noteArray });
+    this.save();
   }
 
   deleteNote(key){
     this.state.noteArray.splice(key, 1);
     this.setState({ noteArray: this.state.noteArray });
+
+    this.save();
   }
 };
 
@@ -129,6 +216,19 @@ const styles = StyleSheet.create({
     zIndex: 11,
     right: 20,
     top: 628,
+    backgroundColor: '#F55858',
+    width: 90,
+    height: 90,
+    borderRadius: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
+    elevation: 8,
+  },
+  addButton2:{
+    position: 'absolute',
+    zIndex: 11,
+    right: 20,
+    top: 200,
     backgroundColor: '#F55858',
     width: 90,
     height: 90,

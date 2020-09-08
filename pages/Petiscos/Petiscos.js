@@ -25,7 +25,7 @@ export default class Estoque extends React.Component{
 
     const init = async () => {
       try {
-        const jsonValue = await AsyncStorage.getItem('@estoque')
+        const jsonValue = await AsyncStorage.getItem('@petiscos')
         if(jsonValue !== null){
           this.setState(JSON.parse(jsonValue));
         }
@@ -92,7 +92,7 @@ export default class Estoque extends React.Component{
   async save(){
     try {
       const jsonValue = JSON.stringify(this.state)
-      await AsyncStorage.setItem('@estoque', jsonValue)
+      await AsyncStorage.setItem('@petiscos', jsonValue)
       console.log("Salvo!");
     } catch (e) {
       console.log(e);
