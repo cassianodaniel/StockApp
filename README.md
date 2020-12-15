@@ -1,6 +1,6 @@
 To run the app you must install the dependencies *inside* the /Stock2App:
 
-##npm install##
+##yarn install##
 
 ##yarn add -g react-native-cli##
 
